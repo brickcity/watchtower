@@ -1,0 +1,30 @@
+{
+  "name": "watchtower",
+  "version": "0.0.0",
+  "description": "scheduled web requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brickcity/watchtower.git"
+  },
+  "keywords": [
+    "cron",
+    "web",
+    "requests",
+    "ping"
+  ],
+  "author": "Curtis Mitchell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brickcity/watchtower/issues"
+  },
+  "homepage": "https://github.com/brickcity/watchtower",
+  "dependencies": {
+    "morgan": "~1.3.1",
+    "express": "~4.9.3",
+    "hogan-express": "~0.5.2"
+  }
+}
