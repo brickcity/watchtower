@@ -1,1 +1,85 @@
-<h1>{{content}}</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-9">
+      <h2>Jobs</h2>
+
+      <table class="table">
+        <tr>
+          <th>url</th>
+          <th>last run</th>
+          <th>next run</th>
+          <th></th>
+        </tr>
+
+        <tr>
+          <td colspan="4"><p class="info">There aren't any jobs.</p></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="col-md-3">
+      <button class="btn btn-primary" data-toggle="modal" data-target="#jobModal">Add Job</button>
+
+      <!-- Add new job Modal -->
+      <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="title" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="title">Add new job</h4>
+            </div>
+            <div class="modal-body">
+              <form role="form">
+                <div class="form-group">
+                  <input type="url" class="form-control" id="url" name="url" placeholder="url">
+                  <br />
+                  <div class='input-group date' id='datetimepicker1'>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <input type="text" class="form-control" placeholder="start date/time" />
+                  </div>
+                </div>
+
+                <div class="radio">
+                  <label>
+                    <input type="radio" checked="checked" name="optionsRadios" id="optionsRadios2" value="option2">
+                    Once
+                  </label>
+                </div>
+
+                <div class="form-inline">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                      Every <input type="text" class="form-control" />
+                      <select class="form-control">
+                        <option>seconds</option>
+                        <option>minutes</option>
+                        <option>hours</option>
+                        <option>days</option>
+                        <option>weeks</option>
+                      </select>
+                    </label>
+                  </div>
+              </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#yield-scripts}}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
+{{/yield-scripts}}
