@@ -11,9 +11,19 @@
           <th></th>
         </tr>
 
+        {{#jobs}}
         <tr>
-          <td colspan="4"><p class="info">There aren't any jobs.</p></td>
+          <td>{{attrs.name}}</td>
+          <td><span data-livestamp="{{attrs.lastRunAt}}">{{attrs.lastRunAt}}</span></td>
+          <td><span data-livestamp="{{attrs.nextRunAt}}">{{attrs.nextRunat}}</span></td>
+          <td><button class="btn btn-danger btn-xs job" data-jobid="{{attrs._id}}">delete</button></td>
         </tr>
+        {{/jobs}}
+        {{^jobs}}
+          <tr>
+            <td colspan="4"><p class="info">There aren't any jobs.</p></td>
+          </tr>
+        {{/jobs}}
       </table>
     </div>
 
@@ -24,49 +34,50 @@
       <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="title" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
+            <form role="form" action="/jobs" method="post">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
               <h4 class="modal-title" id="title">Add new job</h4>
             </div>
             <div class="modal-body">
-              <form role="form">
-                <div class="form-group">
-                  <input type="url" class="form-control" id="url" name="url" placeholder="url">
-                  <br />
-                  <div class='input-group date' id='datetimepicker1'>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                    <input type="text" class="form-control" placeholder="start date/time" />
-                  </div>
-                </div>
+              <div class="form-group">
+                <input type="url" class="form-control" id="url" name="url" placeholder="url">
+              </div>
 
-                <div class="radio">
-                  <label>
-                    <input type="radio" checked="checked" name="optionsRadios" id="optionsRadios2" value="option2">
-                    Once
-                  </label>
+              <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                  <input type="text" class="form-control" name="startDate" placeholder="start date/time" />
                 </div>
+              </div>
 
+              <div class="form-group">
                 <div class="form-inline">
                   <div class="radio">
                     <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-                      Every <input type="text" class="form-control" />
-                      <select class="form-control">
-                        <option>seconds</option>
-                        <option>minutes</option>
-                        <option>hours</option>
-                        <option>days</option>
-                        <option>weeks</option>
-                      </select>
+                      <input type="checkbox" name="repeat" value="every">
+                      Repeat every
+                      <div class="input-group">
+                        <div class="input-type-btn">
+                          <input type="number" name="everyUnit" class="form-control" />
+                          <select name="interval" class="form-control">
+                            <option value="seconds">seconds</option>
+                            <option value="minutes">minutes</option>
+                            <option value="hours">hours</option>
+                            <option value="days">days</option>
+                            <option value="weeks">weeks</option>
+                          </select>
+                        </div>
                     </label>
                   </div>
+                </div>
               </div>
-              </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save</button>
+              <input type="submit" class="btn btn-primary" value="Save" />
             </div>
+          </form>
           </div>
         </div>
       </div>
@@ -75,11 +86,27 @@
 </div>
 
 {{#yield-scripts}}
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/livestamp/1.1.2/livestamp.min.js"></script>
 <script type="text/javascript" src="https://rawgit.com/Eonasdan/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker();
     });
+
+    $(function() {
+      $('.job').click(function (){
+        var jobid = $(this).data().jobid;
+        var form = $("<form />", {
+            action: "/jobs/" + jobid,
+            method: 'POST'
+        });
+        form.submit();
+      });
+    });
 </script>
 {{/yield-scripts}}
+
+{{#yield-head}}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/css/bootstrap-datetimepicker.min.css" />
+{{/yield-head}}
